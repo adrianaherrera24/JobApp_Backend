@@ -23,7 +23,7 @@ GRANT ALL PRIVILEGES TO APLIC;
 -- -- TABLAS
 -- ---------------------------------
 CREATE TABLE APLIC.USUARIO (
-  usuario_id VARCHAR2(10) NOT NULL PRIMARY KEY,
+  usuario_id VARCHAR2(10) NOT NULL,
   nombre VARCHAR2(50),
   edad number(3),
   telefono VARCHAR2(12),
@@ -128,14 +128,16 @@ END;
 -- ----------------------------------------------------
 -- Funciones
 -- ----------------------------------------------------
-create or replace FUNCTION listarSkills
+create or replace FUNCTION listarSkills(
+    s_usuario_id IN SKILL.usuario_id%TYPE
+)
 RETURN Types.ref_cursor
 AS
-    sk_cursor types.ref_cursor;
+    skill_cursor types.ref_cursor;
 BEGIN
-  OPEN sk_cursor FOR
-       SELECT n_skill,usuario_id,nombre,descripcion FROM SKILL;
-  RETURN sk_cursor;
+  OPEN skill_cursor FOR
+        SELECT n_skill,usuario_id,nombre,descripcion FROM SKILL where usuario_id = s_usuario_id;
+  RETURN skill_cursor;
 END;
 -- ----------------------------------------------------
  ----------------------------------------------------
@@ -209,8 +211,7 @@ END;
 -- ----------------------------------------------------
  ----------------------------------------------------
 CREATE OR REPLACE PROCEDURE eliminarEducacion(
-    m_educ IN Educacion.n_educ%TYPE,
-    m_usuario_id IN Educacion.usuario_id%TYPE)
+    m_educ IN Educacion.n_educ%TYPE)
 AS
 BEGIN
     DELETE FROM Educacion WHERE usuario_id = m_usuario_id AND n_educ = m_educ;
@@ -320,15 +321,6 @@ BEGIN
     locacion = m_locacion
   WHERE empresa_id = m_empresa_id;
 END;
-
-CREATE OR REPLACE PROCEDURE listarEmpresa (
-  m_empresa_id IN Empresa.empresa_id%TYPE
-)
-AS
-BEGIN
-  SELECT area,nombre,locacion FROM Empresa WHERE empresa_id = m_empresa_id;
-END;
-
 -- ----------------------------------------------------
 -- Funciones
 -- ----------------------------------------------------
