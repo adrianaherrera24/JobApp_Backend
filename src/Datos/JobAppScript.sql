@@ -295,14 +295,16 @@ END;
 CREATE TABLE APLIC.Empresa(
   empresa_id VARCHAR(10) NOT NULL,
   locacion VARCHAR(50),
-  nombre VARCHAR(50)
+  nombre VARCHAR(50),
+  privilegio VARCHAR(30), NOT NULL
 );
 -- ----------------------------------
 -- SP
 CREATE OR REPLACE PROCEDURE insertarEmpresa(
   empresa_id IN Empresa.empresa_id%TYPE,
   nombre IN Empresa.nombre%TYPE,
-  locacion IN Empresa.locacion%TYPE
+  locacion IN Empresa.locacion%TYPE,
+  privilegio IN Empresa.privilegio%TYPE
 )
 AS
 BEGIN
