@@ -16,24 +16,22 @@ public class Empresa implements Serializable{
     String id;
     String nombre;
     String locacion;
-    String area;
+    
     
     public Empresa(){
         id = new String();
         nombre = new String();
         locacion = new String();
-        area = new String();
     }
-    public Empresa(String id,String nombre,String locacion,String area){
+    public Empresa(String id,String nombre,String locacion){
         this.id = id;
         this.nombre = nombre;
         this.locacion = locacion;
-        this.area = area;
     }
 
     @Override
     public String toString() {
-        return "Empresa{" + "id=" + id + ", nombre=" + nombre + ", locacion=" + locacion + ", area=" + area + '}';
+        return "Empresa{" + "id=" + id + ", nombre=" + nombre + ", locacion=" + locacion+ '}';
     }
 
     public String getId() {
@@ -60,11 +58,5 @@ public class Empresa implements Serializable{
         this.locacion = locacion;
     }
 
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
+   
 }

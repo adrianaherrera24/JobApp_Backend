@@ -291,40 +291,41 @@ BEGIN
 END;
 ------------------------------------------------------------------------------------------------------------------------------------
 
+
 CREATE TABLE APLIC.Empresa(
   empresa_id VARCHAR(10) NOT NULL,
-  area VARCHAR(30),
   locacion VARCHAR(50),
-  nombre VARCHAR(50)
+  nombre VARCHAR(50),
+  privilegio VARCHAR(30), NOT NULL
 );
 -- ----------------------------------
 -- SP
 CREATE OR REPLACE PROCEDURE insertarEmpresa(
   empresa_id IN Empresa.empresa_id%TYPE,
-  area IN Empresa.area%TYPE,
   nombre IN Empresa.nombre%TYPE,
-  locacion IN Empresa.locacion%TYPE
+  locacion IN Empresa.locacion%TYPE,
+  privilegio IN Empresa.privilegio%TYPE
 )
 AS
 BEGIN
-    INSERT INTO Empresa VALUES(empresa_id,area,nombre,locacion);
+    INSERT INTO Empresa VALUES(empresa_id,nombre,locacion);
 END;
 
 -- ----------------------------------------------------
 CREATE OR REPLACE PROCEDURE modificarEmpresa (
   m_empresa_id IN Empresa.empresa_id%TYPE,
-  m_area IN Empresa.area%TYPE,
   m_nombre IN Empresa.nombre%TYPE,
   m_locacion IN Empresa.locacion%TYPE
 )
 AS
 BEGIN
   UPDATE Empresa SET
-    area = m_area,
     nombre = m_nombre,
     locacion = m_locacion
   WHERE empresa_id = m_empresa_id;
 END;
+
+
 -- ----------------------------------------------------
 -- Funciones
 -- ----------------------------------------------------
@@ -334,7 +335,7 @@ AS
     em_cursor types.ref_cursor;
 BEGIN
   OPEN em_cursor FOR
-       SELECT empresa_id,nombre, locacion, area FROM Empresa;
+       SELECT empresa_id,nombre, locacion FROM Empresa;
   RETURN em_cursor;
 END;
 -- ----------------------------------------------------
@@ -348,6 +349,8 @@ END;
 
 CREATE TABLE APLIC.Puesto(
   puesto_id VARCHAR(10) NOT NULL,
+  empresa_id VARCHAR(10) NOT NULL,
+  area VARCHAR(30),
   nombre VARCHAR(30),
   descripcion VARCHAR(200),
   requisitos VARCHAR(200),
@@ -359,6 +362,8 @@ CREATE TABLE APLIC.Puesto(
 -- SP
 CREATE OR REPLACE PROCEDURE insertarPuesto(
   puesto_id IN Puesto.puesto_id%TYPE,
+  empresa_id IN Puesto.empresa_id%TYPE,
+  area IN Puesto.area%TYPE,
   nombre IN Puesto.nombre%TYPE,
   descripcion IN Puesto.descripcion%TYPE,
   requisitos IN Puesto.requisitos%TYPE,
@@ -367,12 +372,14 @@ CREATE OR REPLACE PROCEDURE insertarPuesto(
 )
 AS
 BEGIN
-    INSERT INTO Puesto VALUES(puesto_id,nombre,descripcion,requisitos,horario,vigente);
+    INSERT INTO Puesto VALUES(puesto_id,empresa_id,area,nombre,descripcion,requisitos,horario,vigente);
 END;
 
 -- ----------------------------------------------------
 CREATE OR REPLACE PROCEDURE modificarPuesto (
   m_puesto_id IN Puesto.puesto_id%TYPE,
+  m_empresa_id IN Puesto.empresa_id%TYPE,
+  m_area IN Puesto.area%TYPE,
   m_nombre IN Puesto.nombre%TYPE,
   m_descripcion IN Puesto.descripcion%TYPE,
   m_requisitos IN Puesto.requisitos%TYPE,
@@ -383,6 +390,8 @@ AS
 BEGIN
   UPDATE Puesto SET
     nombre = m_nombre,
+	empresa_id = m_empresa_id,
+	area = m_area,
 	descripcion = m_descripcion,
 	requisitos = m_requisitos,
 	horario = m_horario,
@@ -399,7 +408,8 @@ AS
     ps_cursor types.ref_cursor;
 BEGIN
   OPEN ps_cursor FOR
-       SELECT puesto_id,nombre,descripcion,requisitos,horario FROM Puesto;
+       SELECT p.puesto_id,p.area,p.descripcion,p.requisitos,p.horario, e.nombre, e.locacion FROM Puesto p 
+	   INNER JOIN empresa e ON p.empresa_id = e.empresa_id;
   RETURN ps_cursor;
 END;
 -- ----------------------------------------------------

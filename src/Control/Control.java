@@ -109,61 +109,46 @@ public class Control {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// EMPRESA ////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public List<Empresa> opcionesEmpresa(String op2, String codigo) throws GlobalException, NoDataException, GlobalException, GlobalException, GlobalException{
+    public List<Empresa> opcionesEmpresa(String id) throws GlobalException, NoDataException, GlobalException, GlobalException, GlobalException{
         
         List<Empresa> empresa = new ArrayList();
-                
-        switch(op2){
-            case "LISTAR":
-                empresa = sem.listarEmpresa();
-            break;
-            case "ELIMINAR":
-                sem.eliminarEmpresa(codigo);
-            break;
-        }
+        empresa = sem.listarEmpresa();
         return empresa;
     }
     
-    public void opcionesEmpresa(String op2, Empresa empresa) throws GlobalException, NoDataException{
-        switch(op2){
-            case "AGREGAR":
-                sem.insertarEmpresa(empresa);
-            break;
-            case "MODIFICAR":
-                sem.modificarEmpresa(empresa);
-            break;
-        }
+    public void eliminarEmpresa(String id) throws GlobalException, NoDataException{
+        sem.eliminarEmpresa(id);
+    }
+    
+    public void insertarEmpresa(Empresa emp) throws GlobalException, NoDataException{
+        sem.insertarEmpresa(emp);
+    }
+    
+    public void modificarEmpresa(Empresa emp) throws GlobalException, NoDataException{
+        sem.modificarEmpresa(emp);
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// PUESTO ////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public List<Puesto> opcionesPuesto(String op2, String codigo) throws GlobalException, NoDataException{
+    public List<Puesto> listarPuesto(String id) throws GlobalException, NoDataException{
         
         List<Puesto> puesto = new ArrayList();
-                
-        switch(op2){
-            case "LISTAR":
-                puesto = sp.listarPuesto(codigo);
-            break;
-            case "ELIMINAR":
-                sp.eliminarPuesto(codigo);
-            break;
-        }
-        
+        puesto = sp.listarPuesto(id);
         return puesto;
     }
-    
-    public void opcionesPuesto(String op2, Puesto puesto) throws GlobalException, NoDataException{
-        switch(op2){
-            case "AGREGAR":
-                sp.insertarPuesto(puesto);
-            break;
-            case "MODIFICAR":
-                sp.modificarPuesto(puesto);
-            break;
-        }
+    public void eliminarPuesto(String id) throws GlobalException, NoDataException{
+        sp.eliminarPuesto(id);
     }
+    
+    public void insertarPuesto(Puesto pues) throws GlobalException, NoDataException{
+        sp.insertarPuesto(pues);
+    }
+    
+    public void modificarPuesto(Puesto pues) throws GlobalException, NoDataException{
+        sp.modificarPuesto(pues);
+    }
+   
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// SKILLS //////////////////////////////////////////////////////////////

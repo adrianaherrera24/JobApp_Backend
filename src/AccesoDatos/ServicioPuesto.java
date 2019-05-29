@@ -61,10 +61,13 @@ public class ServicioPuesto extends AccesoServicios{
                 puesto = new Puesto(
                                     id,
                                     rs.getString("nombre"),
+                                    rs.getString("area"),
                                     rs.getString("descripcion"),
                                     rs.getString("requisitos"),
                                     rs.getString("horario"),
-                                    rs.getInt("vigente"));
+                                    rs.getInt("vigente"),
+                                    rs.getString("nombre_empresa"),
+                                    rs.getString("locacion_empresa"));
                 coleccion.add(puesto);
             }
         }
@@ -122,10 +125,11 @@ public class ServicioPuesto extends AccesoServicios{
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.setString(2, puesto.getId());
             pstmt.setString(3, puesto.getNombre());
-            pstmt.setString(4, puesto.getDescripcion());
-            pstmt.setString(5, puesto.getRequisitos());
-            pstmt.setString(6, puesto.getHorario());
-            pstmt.setInt(7, puesto.getVigente());
+            pstmt.setString(4, puesto.getNombre());
+            pstmt.setString(5, puesto.getDescripcion());
+            pstmt.setString(6, puesto.getRequisitos());
+            pstmt.setString(7, puesto.getHorario());
+            pstmt.setInt(8, puesto.getVigente());            
             pstmt.execute();
             
         }
@@ -173,10 +177,11 @@ public class ServicioPuesto extends AccesoServicios{
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
             pstmt.setString(2, puesto.getId());
             pstmt.setString(3, puesto.getNombre());
-            pstmt.setString(4, puesto.getDescripcion());
-            pstmt.setString(5, puesto.getRequisitos());
-            pstmt.setString(6, puesto.getHorario());
-            pstmt.setInt(7, puesto.getVigente());
+            pstmt.setString(4, puesto.getArea());
+            pstmt.setString(5, puesto.getDescripcion());
+            pstmt.setString(6, puesto.getRequisitos());
+            pstmt.setString(7, puesto.getHorario());
+            pstmt.setInt(8, puesto.getVigente());
             pstmt.execute();
             
         }
