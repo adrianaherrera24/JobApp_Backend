@@ -5,7 +5,7 @@
  */
 package AccesoDatos;
 
-import LogicaNegocio.Usuario;
+import LogicaNegocio.Referencia;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,18 +16,21 @@ import oracle.jdbc.OracleTypes;
 
 /**
  *
- * @author Adriana Herrera
+ * @author Adriana
  */
-public class ServicioUsuarios extends AccesoServicios{
+public class ServicioReferencias extends AccesoServicios{
     
-    private static final String listarUsuarios  = "{?=call listarUsuarios ()}";
-    private static final String insertarUsuarios  = "{?=call insertarUsuarios (?,?,?,?,?)}";
-    private static final String modificarUsuarios  = "{?=call modificarUsuarios (?,?,?,?,?)}";
-    private static final String eliminarUsuarios  = "{?=call eliminarUsuarios (?)}";
+    private static final String listarReferencias = "{?=call listarReferencias (?)}";
+    private static final String insertarReferencia = "{call insertarReferencia (?,?,?,?,?)}";
+    private static final String modificarReferencias = "{call modificarReferencias (?,?,?,?,?,?)}";
+    private static final String eliminarReferencia  = "{call eliminarReferencia (?)}";
     
-    public void ServicioUsuarios(){}
+    //TO DO: No sé cómo se comporta la clase Skill, si tiene un objeto Usuario de atributo o qué
+    //Voy a asumir que solo tiene un string con el identificador del usuario
     
-    public List<Usuario> listarUsuarios() throws GlobalException, NoDataException
+    public void ServicioReferencias(){}
+    
+    public List<Referencia> listarReferencias(String id) throws GlobalException, NoDataException
     {
         try
         {
@@ -44,25 +47,27 @@ public class ServicioUsuarios extends AccesoServicios{
         }
 
         ResultSet rs = null;
-        List<Usuario> coleccion = new ArrayList();
-        Usuario usuario = null;
+        List<Referencia> coleccion = new ArrayList();
+        Referencia ref = null;
         CallableStatement pstmt = null;
         try
         {
-            pstmt = conexion.prepareCall(listarUsuarios);
+            pstmt = conexion.prepareCall(listarReferencias);
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setString(2, id);
             pstmt.execute();
             rs = (ResultSet)pstmt.getObject(1);
             while (rs.next())
             {
-               usuario = new Usuario(
+                ref = new Referencia(
+                    rs.getInt("n_ref"),
                     rs.getString("usuario_id"),
                     rs.getString("nombre"),
+                    rs.getString("telefono"),
                     rs.getString("email"),
-                    rs.getString("password"),
-                    rs.getString("privilegio")
+                    rs.getString("descripcion")
                 );
-                coleccion.add(usuario);
+                coleccion.add(ref);
             }
         }
         catch (SQLException e)
@@ -96,7 +101,8 @@ public class ServicioUsuarios extends AccesoServicios{
         return coleccion;
     }
     
-    public boolean insertarUsuarios(Usuario usuario) throws GlobalException, NoDataException
+    
+    public boolean insertarReferencia(Referencia ref) throws GlobalException, NoDataException
     {
         try
         {
@@ -113,12 +119,12 @@ public class ServicioUsuarios extends AccesoServicios{
         CallableStatement pstmt = null;
         try
         {
-            pstmt = conexion.prepareCall(insertarUsuarios);
-            pstmt.setString(1, usuario.getId());
-            pstmt.setString(2, usuario.getNombre());
-            pstmt.setString(3, usuario.getEmail());
-            pstmt.setString(4, usuario.getPassword());
-            pstmt.setString(5, usuario.getPrivilegio());
+            pstmt = conexion.prepareCall(insertarReferencia);
+            pstmt.setString(1, ref.getUsuario());
+            pstmt.setString(2, ref.getNombre());
+            pstmt.setString(3, ref.getTelefono());
+            pstmt.setString(4, ref.getEmail());
+            pstmt.setString(5, ref.getDescripcion());
             
             boolean resultado = pstmt.execute();
             if (resultado == true)
@@ -145,11 +151,11 @@ public class ServicioUsuarios extends AccesoServicios{
             {
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
+            return true;
         }
-        return true;
     }
     
-    public boolean modificarUsuarios(Usuario usuario) throws GlobalException, NoDataException
+    public void modificarReferencias(Referencia ref) throws GlobalException, NoDataException
     {
         try
         {
@@ -166,12 +172,13 @@ public class ServicioUsuarios extends AccesoServicios{
         PreparedStatement pstmt = null;
         try
         {
-            pstmt = conexion.prepareCall(modificarUsuarios);
-            pstmt.setString(1, usuario.getId());
-            pstmt.setString(2, usuario.getNombre());
-            pstmt.setString(3, usuario.getEmail());
-            pstmt.setString(4, usuario.getPassword());
-            pstmt.setString(5, usuario.getPrivilegio());
+            pstmt = conexion.prepareCall(modificarReferencias);
+            pstmt.setInt(1, ref.getId());
+            pstmt.setString(2, ref.getUsuario());
+            pstmt.setString(3, ref.getNombre());
+            pstmt.setString(4, ref.getTelefono());
+            pstmt.setString(5, ref.getEmail());
+            pstmt.setString(6, ref.getDescripcion());
             
             int resultado = pstmt.executeUpdate();
 
@@ -205,10 +212,9 @@ public class ServicioUsuarios extends AccesoServicios{
                 throw new GlobalException("Estatutos invalidos o nulos");
             }
         }
-        return true;
     }
     
-    public boolean eliminarUsuarios(String id) throws GlobalException, NoDataException
+    public boolean eliminarReferencia(int id) throws GlobalException, NoDataException
     {
         try
         {
@@ -225,8 +231,8 @@ public class ServicioUsuarios extends AccesoServicios{
         CallableStatement pstmt = null;
         try
         {
-            pstmt = conexion.prepareCall(eliminarUsuarios);
-            pstmt.setString(1, id);
+            pstmt = conexion.prepareCall(eliminarReferencia);
+            pstmt.setInt(1, id);
             
             int resultado = pstmt.executeUpdate();
 
