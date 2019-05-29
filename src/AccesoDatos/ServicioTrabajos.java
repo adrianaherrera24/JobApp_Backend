@@ -20,7 +20,7 @@ import oracle.jdbc.OracleTypes;
  */
 public class ServicioTrabajos extends AccesoServicios{
     
-    private static final String listarTrabajo = "{?=call listarTrabajo ()}";
+    private static final String listarTrabajo = "{?=call listarTrabajo (?)}";
     private static final String insertarTrabajo = "{call insertarTrabajo (?,?,?,?,?,?)}";
     private static final String modificarTrabajo = "{call modificarTrabajo (?,?,?,?,?,?,?)}";
     private static final String eliminarTrabajo  = "{call eliminarTrabajo (?)}";
@@ -30,7 +30,7 @@ public class ServicioTrabajos extends AccesoServicios{
     
     public void ServicioTrabajo(){}
     
-    public List<Trabajo> listarTrabajo() throws GlobalException, NoDataException
+    public List<Trabajo> listarTrabajo(String id) throws GlobalException, NoDataException
     {
         try
         {
@@ -54,6 +54,7 @@ public class ServicioTrabajos extends AccesoServicios{
         {
             pstmt = conexion.prepareCall(listarTrabajo);
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setString(2, id);
             pstmt.execute();
             rs = (ResultSet)pstmt.getObject(1);
             while (rs.next())

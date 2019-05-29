@@ -269,13 +269,15 @@ END;
 -- ----------------------------------------------------
 -- Funciones
 -- ----------------------------------------------------
-CREATE OR REPLACE FUNCTION listarTrabajo
+create or replace FUNCTION listarTrabajo(
+    t_usuario_id IN trabajo.usuario_id%TYPE
+)
 RETURN Types.ref_cursor
 AS
     tr_cursor types.ref_cursor;
 BEGIN
     OPEN tr_cursor FOR
-        SELECT N_TRAB,USUARIO_ID,empresa,puesto,descripcion,anno_inicio,anno_final FROM Trabajo;
+        SELECT N_TRAB,USUARIO_ID,empresa,puesto,descripcion,anno_inicio,anno_final FROM trabajo where USUARIO_ID = t_usuario_id;
     RETURN tr_cursor;
 END;
 -- ----------------------------------------------------
