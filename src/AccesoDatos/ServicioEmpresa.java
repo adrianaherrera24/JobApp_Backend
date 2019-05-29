@@ -59,7 +59,6 @@ public class ServicioEmpresa extends AccesoServicios{
             {
                 empresa = new Empresa(
                     rs.getString("empresa_id"),
-                    rs.getString("area"),
                     rs.getString("locacion"),
                     rs.getString("nombre"));
                 coleccion.add(empresa);
@@ -116,9 +115,8 @@ public class ServicioEmpresa extends AccesoServicios{
         {
             pstmt = conexion.prepareCall(insertarEmpresa);
             pstmt.setString(1, empresa.getId());
-            pstmt.setString(2, empresa.getArea());
-            pstmt.setString(3, empresa.getLocacion());
-            pstmt.setString(4, empresa.getNombre());
+            pstmt.setString(2, empresa.getLocacion());
+            pstmt.setString(3, empresa.getNombre());
             pstmt.execute();
             
             boolean resultado = pstmt.execute();
@@ -168,9 +166,8 @@ public class ServicioEmpresa extends AccesoServicios{
         {
             pstmt = conexion.prepareCall(modificarEmpresa);
             pstmt.setString(1, empresa.getId());
-            pstmt.setString(2, empresa.getArea());
-            pstmt.setString(3, empresa.getLocacion());
-            pstmt.setString(4, empresa.getNombre());
+            pstmt.setString(2, empresa.getLocacion());
+            pstmt.setString(3, empresa.getNombre());
             pstmt.execute();
             
             int resultado = pstmt.executeUpdate();
