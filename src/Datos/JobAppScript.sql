@@ -410,6 +410,64 @@ BEGIN
     DELETE FROM Puesto WHERE puesto_id = m_puesto_id;
 END;
 
+-- -------------------------------------------------
+CREATE TABLE APLIC.REFERENCIAS (
+  n_ref number(9) NOT NULL PRIMARY KEY,
+  usuario_id VARCHAR2(12) NOT NULL,
+  nombre VARCHAR2(50),
+  telefono VARCHAR2(12),
+  email VARCHAR2(100),
+  descripcion varchar2(200)
+);
 
+CREATE SEQUENCE ref_seq START WITH 1;
 
+CREATE OR REPLACE PROCEDURE insertarReferencia(
+  u_usuario_id IN REFERENCIAS.usuario_id%TYPE,
+  u_nombre IN REFERENCIAS.nombre%TYPE,
+  u_telefono IN REFERENCIAS.telefono%TYPE,
+  u_email IN REFERENCIAS.email%TYPE,
+  u_descripcion IN REFERENCIAS.descripcion%TYPE 
+)
+AS
+BEGIN
+	INSERT INTO REFERENCIAS VALUES(REF_SEQ.NEXTVAL,u_usuario_id,u_nombre,u_telefono,u_email,u_descripcion);
+END;
 
+CREATE OR REPLACE PROCEDURE modificarReferencias (
+  m_ref IN REFERENCIAS.n_ref%TYPE,
+  m_usuario_id IN REFERENCIAS.usuario_id%TYPE,
+  m_nombre IN REFERENCIAS.nombre%TYPE,
+  m_telefono IN REFERENCIAS.telefono%TYPE,
+  m_email IN REFERENCIAS.email%TYPE,
+  m_descripcion IN REFERENCIAS.descripcion%TYPE 
+)
+AS
+BEGIN
+  UPDATE REFERENCIAS SET
+    nombre = m_nombre,
+    telefono = m_telefono,
+    email = m_email,
+    descripcion = m_descripcion
+  WHERE usuario_id = m_usuario_id and n_ref = m_ref;
+END;
+
+create or replace FUNCTION listarReferencias(
+    s_usuario_id IN referencias.usuario_id%TYPE
+)
+RETURN Types.ref_cursor
+AS
+    refe_cursor types.ref_cursor;
+BEGIN
+  OPEN refe_cursor FOR
+        SELECT n_ref,usuario_id,nombre,telefono,email,descripcion FROM referencias where usuario_id = s_usuario_id;
+  RETURN refe_cursor;
+END;
+
+create or replace PROCEDURE eliminarReferencia( 
+    m_ref IN REFERENCIAS.N_REF%TYPE
+)
+AS
+BEGIN
+    DELETE FROM referencias WHERE N_REF = m_ref;
+END;

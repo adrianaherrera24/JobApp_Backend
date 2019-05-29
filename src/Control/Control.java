@@ -11,6 +11,7 @@ import AccesoDatos.NoDataException;
 import AccesoDatos.ServicioEducacion;
 import AccesoDatos.ServicioEmpresa;
 import AccesoDatos.ServicioPuesto;
+import AccesoDatos.ServicioReferencias;
 import AccesoDatos.ServicioSkills;
 import AccesoDatos.ServicioTrabajos;
 import AccesoDatos.ServicioUsuarios;
@@ -18,6 +19,7 @@ import AccesoDatos.ServicioUsuarios;
 import LogicaNegocio.Educacion;
 import LogicaNegocio.Empresa;
 import LogicaNegocio.Puesto;
+import LogicaNegocio.Referencia;
 import LogicaNegocio.Skill;
 import LogicaNegocio.Trabajo;
 import LogicaNegocio.Usuario;
@@ -37,6 +39,7 @@ public class Control {
     private ServicioSkills ss;
     private ServicioTrabajos st;
     private ServicioUsuarios su;
+    private ServicioReferencias sr;
     
     // Preguntar sobre instancia unica
     private static Control uniqueInstance;
@@ -58,6 +61,7 @@ public class Control {
         ss = new ServicioSkills();
         st = new ServicioTrabajos();
         su = new ServicioUsuarios();
+        sr = new ServicioReferencias();
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,6 +83,27 @@ public class Control {
     
     public void modificarEducacion(Educacion educ) throws GlobalException, NoDataException{
         sed.modificarEducacion(educ);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////// REFERENCIAS //////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public List<Referencia> listaReferencia(String id) throws GlobalException, NoDataException{
+        List<Referencia> ref = new ArrayList();
+        ref = sr.listarReferencias(id);
+        return ref;
+    }
+    
+    public void eliminarReferencia(int id) throws GlobalException, NoDataException{
+        sr.eliminarReferencia(id);
+    }
+    
+    public void insertarReferencia(Referencia ref) throws GlobalException, NoDataException{
+        sr.insertarReferencia(ref);
+    }
+    
+    public void modificarReferencias(Referencia ref) throws GlobalException, NoDataException{
+        sr.modificarReferencias(ref);
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,29 +210,21 @@ public class Control {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// USUARIOS ///////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public List<Usuario> opcionesUsuarios(String op2, String codigo) throws GlobalException, NoDataException{
-        
+    public List<Usuario> listarUsuarios() throws GlobalException, NoDataException{
         List<Usuario> usuario = new ArrayList();
-                
-        switch(op2){
-            case "LISTAR":
-                usuario = su.listarUsuarios();
-            break;
-            case "ELIMINAR":
-                su.eliminarUsuarios(codigo);
-            break;
-        }
+        usuario = su.listarUsuarios();
         return usuario;
     }
     
-    public void opcionesUsuarios(String op2, Usuario usuario) throws GlobalException, NoDataException{
-        switch(op2){
-            case "AGREGAR":
-                su.insertarUsuarios(usuario);
-            break;
-            case "MODIFICAR":
-                su.modificarUsuarios(usuario);
-            break;
-        }
+    public void eliminarUsuario(String id) throws GlobalException, NoDataException{
+        su.eliminarUsuarios(id);
+    }
+    
+    public void insertarUsuarios(Usuario u) throws GlobalException, NoDataException{
+        su.insertarUsuarios(u);
+    }
+    
+    public void modificarUsuarios(Usuario u) throws GlobalException, NoDataException{
+        su.modificarUsuarios(u);
     }
 }
