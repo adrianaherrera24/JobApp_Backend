@@ -15,6 +15,7 @@ public class Puesto implements Serializable {
     
     String id;
     String nombre;
+    String empresa_id;
     String area;
     String descripcion;
     String requisitos;
@@ -26,6 +27,7 @@ public class Puesto implements Serializable {
     public Puesto(){
         id= new String();
         nombre = new String();
+        empresa_id = new String();
         area = new String();
         descripcion = new String();
         requisitos = new String();

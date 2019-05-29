@@ -129,9 +129,7 @@ public class ServicioPuesto extends AccesoServicios{
             pstmt.setString(5, puesto.getDescripcion());
             pstmt.setString(6, puesto.getRequisitos());
             pstmt.setString(7, puesto.getHorario());
-            pstmt.setInt(8, puesto.getVigente());
-            pstmt.setString(9, puesto.getNombre_empresa());
-            pstmt.setString(10, puesto.getLocacion_empresa());
+            pstmt.setInt(8, puesto.getVigente());            
             pstmt.execute();
             
         }
@@ -184,8 +182,6 @@ public class ServicioPuesto extends AccesoServicios{
             pstmt.setString(6, puesto.getRequisitos());
             pstmt.setString(7, puesto.getHorario());
             pstmt.setInt(8, puesto.getVigente());
-            pstmt.setString(9, puesto.getNombre_empresa());
-            pstmt.setString(10, puesto.getLocacion_empresa());
             pstmt.execute();
             
         }
