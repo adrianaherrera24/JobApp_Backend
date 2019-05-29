@@ -63,30 +63,22 @@ public class Control {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// EDUCACION /////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public List<Educacion> opcionesEducacion(String op2, String codigo) throws GlobalException, NoDataException{
-        
-        List<Educacion> educacion = new ArrayList();
-        
-        switch(op2){
-            case "LISTAR":
-                educacion = sed.listarEducacion();
-            break;
-            case "ELIMINAR":
-                //sed.eliminarEducacion(codigo);
-            break;
-        }
-        return educacion;
+    public List<Educacion> listarEducacion(String id) throws GlobalException, NoDataException{
+        List<Educacion> educ = new ArrayList();
+        educ = sed.listarEducacion(id);
+        return educ;
     }
     
-    public void opcionesEducacion(String op2, Educacion educacion) throws GlobalException, NoDataException{
-        switch(op2){
-            case "AGREGAR":
-                sed.insertarEducacion(educacion);
-            break;
-            case "MODIFICAR":
-                sed.modificarEducacion(educacion);
-            break;
-        }
+    public void eliminarEducacion(int id) throws GlobalException, NoDataException{
+        sed.eliminarEducacion(id);
+    }
+    
+    public void insertarEducacion(Educacion educ) throws GlobalException, NoDataException{
+        sed.insertarEducacion(educ);
+    }
+    
+    public void modificarEducacion(Educacion educ) throws GlobalException, NoDataException{
+        sed.modificarEducacion(educ);
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

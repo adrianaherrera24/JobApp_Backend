@@ -199,13 +199,15 @@ END;
 -- ----------------------------------------------------
 -- Funciones
 -- ----------------------------------------------------
-create or replace FUNCTION listarEducacion
+create or replace FUNCTION listarEducacion(
+    e_usuario_id IN educacion.usuario_id%TYPE
+)
 RETURN Types.ref_cursor
 AS
     ed_cursor types.ref_cursor;
 BEGIN
   OPEN ed_cursor FOR
-       SELECT n_educ,usuario_id,institucion,carrera,titulo,anno FROM Educacion;
+       SELECT n_educ,usuario_id,institucion,carrera,titulo,anno FROM Educacion where USUARIO_ID = e_usuario_id;
   RETURN ed_cursor;
 END;
 -- ----------------------------------------------------

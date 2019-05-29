@@ -19,17 +19,17 @@ import oracle.jdbc.OracleTypes;
  */
 public class ServicioEducacion extends AccesoServicios{
 
-    private static final String listarEducacion = "{?=call listarEducacion ()}";
+    private static final String listarEducacion = "{?=call listarEducacion (?)}";
     private static final String insertarEducacion = "{call insertarEducacion (?,?,?,?,?)}";
     private static final String modificarEducacion = "{call modificarEducacion (?,?,?,?,?,?)}";
-    private static final String eliminarEducacion  = "{call eliminarEducacion (?,?)}";
+    private static final String eliminarEducacion  = "{call eliminarEducacion (?)}";
     
     //TO DO: No sé cómo se comporta la clase Educación, si tiene un objeto Usuario de atributo o qué
     //Voy a asumir que solo tiene un string con el identificador del usuario
     
     public void ServicioEducacion(){}
     
-    public List<Educacion> listarEducacion() throws GlobalException, NoDataException
+    public List<Educacion> listarEducacion(String id) throws GlobalException, NoDataException
     {
         try
         {
@@ -53,6 +53,7 @@ public class ServicioEducacion extends AccesoServicios{
         {
             pstmt = conexion.prepareCall(listarEducacion);
             pstmt.registerOutParameter(1, OracleTypes.CURSOR);
+            pstmt.setString(2, id);
             pstmt.execute();
             rs = (ResultSet)pstmt.getObject(1);
             while (rs.next())
@@ -122,7 +123,6 @@ public class ServicioEducacion extends AccesoServicios{
             pstmt.setString(3, educacion.getCarrera());
             pstmt.setString(4, educacion.getTitulo());
             pstmt.setString(5, educacion.getAnno());
-            pstmt.execute();
             
             boolean resultado = pstmt.execute();
             if (resultado == true)
@@ -213,7 +213,7 @@ public class ServicioEducacion extends AccesoServicios{
         }
     }
     
-    public boolean eliminarEducacion(int id, String usuario) throws GlobalException, NoDataException
+    public boolean eliminarEducacion(int id) throws GlobalException, NoDataException
     {
         try
         {
@@ -232,7 +232,6 @@ public class ServicioEducacion extends AccesoServicios{
         {
             pstmt = conexion.prepareCall(eliminarEducacion);
             pstmt.setInt(1, id);
-            pstmt.setString(2, usuario);
             
             int resultado = pstmt.executeUpdate();
 
