@@ -402,14 +402,15 @@ END;
 -- ----------------------------------------------------
 -- Funciones
 -- ----------------------------------------------------
-create or replace FUNCTION listarPuesto
+create or replace FUNCTION listarPuesto(
+m_puesto_id IN Puesto.puesto_id%TYPE)
 RETURN Types.ref_cursor
 AS
     ps_cursor types.ref_cursor;
 BEGIN
   OPEN ps_cursor FOR
-       SELECT p.puesto_id,p.area,p.descripcion,p.requisitos,p.horario, e.nombre, e.locacion FROM Puesto p 
-	   INNER JOIN empresa e ON p.empresa_id = e.empresa_id;
+       SELECT e.nombre empresa, p.nombre puesto ,p.area,e.locacion, p.descripcion,p.requisitos,p.horario FROM Puesto p 
+	   left JOIN empresa e ON p.empresa_id = e.empresa_id;
   RETURN ps_cursor;
 END;
 -- ----------------------------------------------------
@@ -539,5 +540,32 @@ AS
 BEGIN
     INSERT INTO PERFIL VALUES(m_id,m_nombre,m_lugar,m_edad,m_correo,m_telefono,m_descripcion);
 END;
+----------------------------------------------------------------------
+--PUESTOS
+INSERT INTO PUESTO (puesto_id,empresa_id ,area,nombre ,descripcion ,
+requisitos ,horario,vigente) 
+VALUES ('HPE-002','HPE','Information Technology','ASIC Engineer','Experienced ASIC Integration Engineer, with knowledge in Simics and Verilog',
+'Minimum Studies: MSc in Electrical Engineering. 
+2 years of experience in similar positions', '8am - 5pm', 1);
 
--- --------------------------------------------------------------------------------------------
+
+INSERT INTO PUESTO (puesto_id,empresa_id ,area,nombre ,descripcion ,
+requisitos ,horario,vigente) 
+VALUES ('GRL-001','GrlLgc','Software Development','Senior Java Team Lead','Team Lead / Manager position for JAVA projects',
+'Minimum Studies: BS in Computer science. 
++5 years of experience in similar positions
+Scrum Master Certified', '9am - 6pm', 1);
+
+
+INSERT INTO PUESTO (puesto_id,empresa_id ,area,nombre ,descripcion ,
+requisitos ,horario,vigente) 
+VALUES ('GRL-002','GrlLgc','Software Development','Jr FrontEnd Developer','Junior front end developer, with deep React and Redux Knowledge',
+'Minimum Studies: BS in Computer science. 
+1 year of experience in similar positions', 'Remote', 1);
+
+INSERT INTO PUESTO (puesto_id,empresa_id ,area,nombre ,descripcion ,
+requisitos ,horario,vigente) 
+VALUES ('BAC-001','BAC','Business Intelligence','Data Insights Analyst','BI Analyst, with experience on Tableau, SQL and R programming',
+'Minimum Studies: BS in Computer science. 
+2 years of experience in similar positions
+Data Science specialization', '8am - 5pm', 1);
