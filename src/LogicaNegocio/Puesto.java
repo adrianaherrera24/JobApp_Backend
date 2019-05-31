@@ -36,7 +36,15 @@ public class Puesto implements Serializable {
         nombre_empresa = new String();
         locacion_empresa = new String();
     }
-    
+    public Puesto(String nombre_empresa, String nombre,String area,String locacion_empresa, String descripcion, String requisitos, String horario){    
+        this.nombre = nombre;
+        this.area = area;
+        this.descripcion = descripcion;
+        this.requisitos = requisitos;
+        this.horario = horario;
+        this.nombre_empresa = nombre_empresa;
+        this.locacion_empresa = locacion_empresa;
+    }
     public Puesto(String id, String nombre,String area,String descripcion, String requisitos, String horario, int vigente,String nombre_empresa, String locacion_empresa){
         this.id = id;
         this.nombre = nombre;
