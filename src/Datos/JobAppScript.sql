@@ -481,3 +481,63 @@ AS
 BEGIN
     DELETE FROM referencias WHERE N_REF = m_ref;
 END;
+
+-- --------------------------------------------------
+CREATE TABLE PERFIL(
+    ID VARCHAR2(12) NOT NULL PRIMARY KEY,
+    NOMBRE VARCHAR2(50),
+    LUGAR_HABITACION VARCHAR2(50),
+    EDAD NUMBER(3),
+    CORREO VARCHAR2(30),
+    TELEFONO VARCHAR2(12),
+    DESCRIPCION VARCHAR2(200)
+);
+
+create or replace FUNCTION LISTARPERFIL(
+    e_usuario_id IN educacion.usuario_id%TYPE
+)
+RETURN Types.ref_cursor
+AS
+    pe_cursor types.ref_cursor;
+BEGIN
+  OPEN pe_cursor FOR
+       SELECT id,nombre,lugar_habitacion,edad,correo,telefono FROM perfil where id = e_usuario_id;
+  RETURN pe_cursor;
+END;
+
+create or replace PROCEDURE modificarPerfil (
+  m_id IN PERFIL.ID%TYPE,
+  m_nombre IN PERFIL.NOMBRE%TYPE,
+  m_lugar IN PERFIL.LUGAR_HABITACION%TYPE,
+  m_edad IN PERFIL.EDAD%TYPE,
+  m_correo IN PERFIL.CORREO%TYPE,
+  m_telefono IN PERFIL.TELEFONO%TYPE,
+  m_descripcion IN PERFIL.DESCRIPCION%TYPE
+)
+AS
+BEGIN
+  UPDATE perfil SET
+    nombre = m_nombre,
+    lugar_habitacion = m_lugar,
+	edad = m_edad,
+    correo = m_correo,
+    telefono = m_telefono,
+    descripcion = m_descripcion
+  WHERE id = m_id;
+END;
+
+create or replace PROCEDURE INSERTARPERFIL(
+  m_id IN PERFIL.ID%TYPE,
+  m_nombre IN PERFIL.NOMBRE%TYPE,
+  m_lugar IN PERFIL.LUGAR_HABITACION%TYPE,
+  m_edad IN PERFIL.EDAD%TYPE,
+  m_correo IN PERFIL.CORREO%TYPE,
+  m_telefono IN PERFIL.TELEFONO%TYPE,
+  m_descripcion IN PERFIL.DESCRIPCION%TYPE
+)
+AS
+BEGIN
+    INSERT INTO PERFIL VALUES(m_id,m_nombre,m_lugar,m_edad,m_correo,m_telefono,m_descripcion);
+END;
+
+-- --------------------------------------------------------------------------------------------

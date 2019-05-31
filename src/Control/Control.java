@@ -10,6 +10,7 @@ import AccesoDatos.NoDataException;
 
 import AccesoDatos.ServicioEducacion;
 import AccesoDatos.ServicioEmpresa;
+import AccesoDatos.ServicioPerfil;
 import AccesoDatos.ServicioPuesto;
 import AccesoDatos.ServicioReferencias;
 import AccesoDatos.ServicioSkills;
@@ -18,6 +19,7 @@ import AccesoDatos.ServicioUsuarios;
 
 import LogicaNegocio.Educacion;
 import LogicaNegocio.Empresa;
+import LogicaNegocio.Perfil;
 import LogicaNegocio.Puesto;
 import LogicaNegocio.Referencia;
 import LogicaNegocio.Skill;
@@ -40,6 +42,7 @@ public class Control {
     private ServicioTrabajos st;
     private ServicioUsuarios su;
     private ServicioReferencias sr;
+    private ServicioPerfil spp;
     
     // Preguntar sobre instancia unica
     private static Control uniqueInstance;
@@ -62,6 +65,7 @@ public class Control {
         st = new ServicioTrabajos();
         su = new ServicioUsuarios();
         sr = new ServicioReferencias();
+        spp = new ServicioPerfil();
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,5 +215,23 @@ public class Control {
     
     public void modificarUsuarios(Usuario u) throws GlobalException, NoDataException{
         su.modificarUsuarios(u);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////// PERFIL ///////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public List<Perfil> listarPerfil(String id) throws GlobalException, NoDataException{
+        
+        List<Perfil> p = new ArrayList();
+        p = spp.listarPerfil(id);
+        return p;
+    }
+    
+    public void insertarPerfil(Perfil p) throws GlobalException, NoDataException{
+        spp.insertarPerfil(p);
+    }
+    
+    public void modificarPerfil(Perfil p) throws GlobalException, NoDataException{
+        spp.modificarPerfil(p);
     }
 }
