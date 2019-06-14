@@ -415,6 +415,31 @@ BEGIN
 END;
 -- ----------------------------------------------------
  ----------------------------------------------------
+
+
+
+create or replace FUNCTION listarPuestoEmpresa(
+m_empresa_id IN Puesto.empresa_id%TYPE)
+RETURN Types.ref_cursor
+AS
+    ps_cursor types.ref_cursor;
+BEGIN
+  OPEN ps_cursor FOR
+       SELECT p.puesto_id, p.empresa_id, p.area, p.nombre, p.descripcion, p.requisitos, p.horario,p.vigente, e.nombre as nombre_empresa, e.locacion AS locacion_empresa
+       FROM Puesto p 
+	   left JOIN empresa e ON p.empresa_id = e.empresa_id
+           where p.empresa_id = m_empresa_id;
+
+  RETURN ps_cursor;
+END;
+
+
+
+
+
+
+
+
 CREATE OR REPLACE PROCEDURE eliminarPuesto( m_puesto_id IN Puesto.puesto_id%TYPE)
 AS
 BEGIN

@@ -26,9 +26,9 @@ public class Puesto implements Serializable {
     
     public Puesto(){
         id= new String();
-        nombre = new String();
         empresa_id = new String();
         area = new String();
+        nombre = new String();              
         descripcion = new String();
         requisitos = new String();
         horario = new String();  
@@ -36,6 +36,8 @@ public class Puesto implements Serializable {
         nombre_empresa = new String();
         locacion_empresa = new String();
     }
+
+  
     public Puesto(String nombre_empresa, String nombre,String area,String locacion_empresa, String descripcion, String requisitos, String horario){    
         this.nombre = nombre;
         this.area = area;
@@ -45,8 +47,9 @@ public class Puesto implements Serializable {
         this.nombre_empresa = nombre_empresa;
         this.locacion_empresa = locacion_empresa;
     }
-    public Puesto(String id, String nombre,String area,String descripcion, String requisitos, String horario, int vigente,String nombre_empresa, String locacion_empresa){
+    public Puesto(String id,String empresa_id, String area,String nombre,String descripcion, String requisitos, String horario, int vigente,String nombre_empresa, String locacion_empresa){
         this.id = id;
+        this.empresa_id = empresa_id;
         this.nombre = nombre;
         this.area = area;
         this.descripcion = descripcion;
@@ -63,7 +66,13 @@ public class Puesto implements Serializable {
     }
 
     
-    
+      public String getEmpresa_id() {
+        return empresa_id;
+    }
+
+    public void setEmpresa_id(String empresa_id) {
+        this.empresa_id = empresa_id;
+    }
     public String getId() {
         return id;
     }

@@ -141,6 +141,12 @@ public class Control {
         puesto = sp.listarPuesto(id);
         return puesto;
     }
+    public List<Puesto> listarPuestoEmpresa(String id) throws GlobalException, NoDataException{
+        
+        List<Puesto> puesto = new ArrayList();
+        puesto = sp.listarPuestoEmpresa(id);
+        return puesto;
+    }
     public void eliminarPuesto(String id) throws GlobalException, NoDataException{
         sp.eliminarPuesto(id);
     }
